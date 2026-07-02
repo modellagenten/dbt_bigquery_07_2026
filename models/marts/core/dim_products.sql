@@ -1,29 +1,20 @@
-with products as (
+with
+    products as (select * from {{ ref("stg_products") }}),
 
-    select *
-    from {{ ref('stg_products') }}
+    order_items as (select * from {{ ref("stg_order_items") }}),
 
-),
+    sales_stats as (
 
-order_items as (
+        select
+            product_id,
+            count(*) as lifetime_units_sold,
+            sum(sale_price) as lifetime_revenue,
+            min(ordered_at) as first_sold_at,
+            max(ordered_at) as last_sold_at
+        from order_items
+        group by product_id
 
-    select *
-    from {{ ref('stg_order_items') }}
-
-),
-
-sales_stats as (
-
-    select
-        product_id,
-        count(*) as lifetime_units_sold,
-        sum(sale_price) as lifetime_revenue,
-        min(ordered_at) as first_sold_at,
-        max(ordered_at) as last_sold_at
-    from order_items
-    group by product_id
-
-)
+    )
 
 select
     p.product_id,
@@ -41,5 +32,4 @@ select
     s.last_sold_at
 
 from products p
-left join sales_stats s
-    on p.product_id = s.product_id
+left join sales_stats s on p.product_id = s.product_id
