@@ -30,3 +30,24 @@ models:
           description: "Email address of the user."
           tests:
             - not_null
+ - name: fct_orders
+    description: "Eine Zeile pro Bestellung mit Revenue-, Profit- und Delivery-Kennzahlen."
+    columns:
+      - name: order_id
+        description: "Primärschlüssel der Bestellung."
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "User id"
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              arguments: 
+                values: ['Complete', 'Processing', 'Shipped', 'Cancelled', 'Returned']
+      - name: ordered_at
+        description: "Zeitpunkt der Bestellung (Timestamp)."
+        tests:
+          - not_null
