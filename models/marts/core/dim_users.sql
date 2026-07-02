@@ -37,19 +37,11 @@ select
     users.traffic_source,
     users.registered_at,
  
-    count(coalesce(completed_orders.lifetime_orders, 0)) as lifetime_orders,
-    sum(coalesce(completed_orders.lifetime_items, 0)) as lifetime_items,
-    min(completed_orders.first_order_at) as first_order_at,
-    max(completed_orders.last_order_at) as last_order_at
+    coalesce(completed_orders.lifetime_orders, 0) as lifetime_orders,
+    coalesce(completed_orders.lifetime_items, 0) as lifetime_items,
+    completed_orders.first_order_at as first_order_at,
+    completed_orders.last_order_at as last_order_at
  
 from users
 left join completed_orders
     on users.user_id = completed_orders.user_id
-group by users.user_id,
-         users.first_name,
-         users.last_name,
-         users.email,
-         users.country,
-         users.city,
-         users.traffic_source,
-         users.registered_at    
