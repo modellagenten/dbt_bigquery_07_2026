@@ -1,4 +1,4 @@
-select
+select distinct
     o.order_id,
     o.user_id,
     o.status,
@@ -6,8 +6,6 @@ select
     o.shipped_at,
     o.delivered_at,
     o.returned_at,
-    oi.sale_price,
-    p.cost,
     count(*) over (partition by oi.order_id) as n_items,
     sum(sale_price) over (partition by oi.order_id) as revenue,
     sum(oi.sale_price - p.cost) over (partition by oi.order_id) as profit,
