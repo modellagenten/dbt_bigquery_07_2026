@@ -3,7 +3,7 @@ version: 2
 models:
   - name: dim_users
     config:
-     materialized: table
+        materialized: table
     description: "One row per user with user master data and lifetime order metrics."
     columns:
       - name: user_id
