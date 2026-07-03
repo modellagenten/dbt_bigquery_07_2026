@@ -30,7 +30,7 @@ models:
           description: "Email address of the user."
           tests:
             - not_null
- - name: fct_orders
+  - name: fct_orders
     description: "Eine Zeile pro Bestellung mit Revenue-, Profit- und Delivery-Kennzahlen."
     columns:
       - name: order_id
